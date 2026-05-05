@@ -1,0 +1,68 @@
+<h:form id="edit_batchmaster" xmlns="http://www.w3.org/1999/xhtml"  
+    xmlns:h="http://java.sun.com/jsf/html"  
+    xmlns:f="http://java.sun.com/jsf/core"  
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+
+	<h:panelGrid style="margin-top:15px; margin-left:15px;">
+  			<h:outputText styleClass="hdng2" value="Bearbeiten Chargenstamm"/>
+  	</h:panelGrid>
+	
+	<p:dataTable id="table_bachmaster" 
+		value="#{mdcontroller.bmlModel}" 
+		var="bm"
+		rowKey="#{bm.uuid}"
+		style="max-width: 1600px;">
+		
+		<f:facet name="header">Chargenstamm</f:facet>
+		
+		<p:column headerText="Artikel" style="width:100px; text-align:center;">#{bm.iden}</p:column>
+		
+		<p:column headerText="Bezeichnung" style="text-align:center;">#{bm.bez1 } #{bm.bez2}</p:column>
+		
+		<p:column headerText="Charge" editable="false" style="width:100px; text-align:center;">
+			<h:outputText value="#{bm.prnr}"></h:outputText>
+		</p:column>
+		
+		<p:column headerText="Lieferantencharge" style="width:200px; text-align:center;">
+			<p:inputText value="#{bm.prnr2}"/>
+		</p:column>
+		
+		<p:column headerText="MHD" style="width:200px; text-align:center;">
+			<p:calendar pattern="dd.MM.yyyy" 
+				id="dtdc"
+          		value="#{bm.dtdc}"
+          		locale="de" 
+          		navigator="true"/>
+        </p:column>
+              
+        <p:column headerText="Herkunftslande" style="width:260px; text-align:center;">
+			<p:selectOneMenu id="country"
+	                 value="#{bm.countryOfOrigin}"
+	                 converter="countryConverter"
+	                 style="width:220px"
+	                 filter="true" filterMatchMode="startsWith" filterNormalize="true">
+	
+	    		<f:selectItems value="#{countryController.countries}"
+	                   var="c"
+	                   itemValue="#{c}"
+	                   itemLabel="#{c.label}" />
+			</p:selectOneMenu>
+		</p:column>
+		      
+       	<p:column headerText="Speichern" style="width:100px; text-align:center;">
+  				<p:commandButton id="submit4" 
+  						action="#{mdcontroller.saveSelectedBatchMaster(bm)}" 
+						value="Speichern"
+						ajax="false"
+						update="@form">
+				</p:commandButton>
+  		</p:column>
+		
+		
+	</p:dataTable>
+		
+	
+	<p:messages showDetail="true" showSummary="true" escape="false"/>
+	
+</h:form>
